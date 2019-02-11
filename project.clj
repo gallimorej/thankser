@@ -22,7 +22,7 @@
                                     [lein-ring "0.12.4"]
                                     [lein-ancient "0.6.15"]]}
              :uberjar    {:aot :all}}
-  :ring {:handler       proj1.web/handler
+  :ring {:handler       thankser.web/handler
          :auto-reload?  true
          :auto-refresh? true})
 
