@@ -26,7 +26,7 @@
            (GET "/" []
                 (splash))
            (GET "/say-thanks" []
-                (ty/say-thanks :fr))
+                (splash))
            (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
