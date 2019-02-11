@@ -3,7 +3,7 @@
             [monger.collection :as mc])
   (:import [com.mongodb MongoOptions WriteResult ServerAddress]))
 
-(def uri (format "mongodb://%s:%s@ds113630.mlab.com:13630/%s"
+(def uri (format "mongodb://%s:%s@ds331145.mlab.com:31145/%s"
                  "thankseradmin"
                  "1gV6*t^48a"
                  "thankser"))
