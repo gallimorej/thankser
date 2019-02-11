@@ -18,7 +18,7 @@
   [language]
   ;TODO: Handle the case where the language isn't in the map
   ;(language (read-thankses! mongodb/db)))
-  (language (read-thankses!)))
+  (language (read-thankses! mongodb/db)))
 
 (defn say-thanks
   ""

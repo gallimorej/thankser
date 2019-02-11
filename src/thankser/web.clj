@@ -3,6 +3,7 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [ring.adapter.jetty :as jetty]
+            [thankser.core :as ty]
             [environ.core :refer [env]]
             [hiccup.core :refer [html]])
   (:gen-class))
@@ -24,8 +25,8 @@
 (defroutes app
            (GET "/" []
                 (splash))
-           (GET "/send-to-slack" []
-                (send-to-slack))
+           (GET "/say-thanks" []
+                (ty/say-thanks :fr))
            (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
