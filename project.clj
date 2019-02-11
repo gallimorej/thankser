@@ -14,6 +14,7 @@
                  [hiccup "1.0.5"]]
 
   :main ^:skip-aot thankser.core
+  :min-lein-version "2.0.0"
   :target-path "target/%s"
   :uberjar-name "thankser.jar"
   :profiles {:production {:env {:production true}}
