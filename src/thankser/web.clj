@@ -25,7 +25,7 @@
 (defn say-thanks-page  []
       {:status 200
        :headers {"Content-Type" "text/html"}
-       :body (ty/say-thanks :fr)})
+       :body (ty/say-thanks :hawaiian)})
 
 
 (defroutes app
