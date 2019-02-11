@@ -23,7 +23,7 @@
 (defn say-thanks
   ""
   [language]
-  (println (str "Thanks in " language " is " (get-thanks language))))
+  (str "Thanks in " language " is " (get-thanks language)))
 
 (defn -main
   "I don't do a whole lot ... yet."
