@@ -22,11 +22,17 @@
        :headers {"Content-Type" "text/html"}
        :body (body)})
 
+(defn say-thanks-page  []
+      {:status 200
+       :headers {"Content-Type" "text/html"}
+       :body (ty/say-thanks :fr)})
+
+
 (defroutes app
            (GET "/" []
                 (splash))
            (GET "/say-thanks" []
-                (splash))
+                (say-thanks-page))
            (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
