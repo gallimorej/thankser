@@ -30,10 +30,10 @@
 (defroutes app
            (GET "/" []
                 (splash))
-           (GET "/say-thanks" [language]
-                (say-thanks-page (keyword language)))
-           (POST "/say-thanks" [language]
-                (say-thanks-page (keyword language)))
+           (GET "/say-thanks" [text]
+                (say-thanks-page (keyword text)))
+           (POST "/say-thanks" [text]
+                (say-thanks-page (keyword text)))
            (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
