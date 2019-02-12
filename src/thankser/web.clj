@@ -22,17 +22,18 @@
        :headers {"Content-Type" "text/html"}
        :body (body)})
 
-(defn say-thanks-page  []
+(defn say-thanks-page [language]
       {:status 200
-       :headers {"Content-Type" "text/html"}
-       :body (ty/say-thanks :hawaiian)})
-
+       :headers {"Content-Type" "text/plain"}
+       :body (ty/say-thanks language)})
 
 (defroutes app
            (GET "/" []
                 (splash))
-           (GET "/say-thanks" []
-                (say-thanks-page))
+           (GET "/say-thanks" [language]
+                (say-thanks-page (keyword language)))
+           (POST "/say-thanks" [language]
+                (say-thanks-page (keyword language)))
            (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
@@ -49,4 +50,3 @@
 ;; For interactive development:
 ;; (.stop server)
 ;; (def server (-main))
-
