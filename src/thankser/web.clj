@@ -3,6 +3,8 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [ring.adapter.jetty :as jetty]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [thankser.core :as ty]
             [environ.core :refer [env]]
             [hiccup.core :refer [html]])
@@ -43,7 +45,8 @@
                 (route/not-found (slurp (io/resource "404.html")))))
 
 (def handler
-  (-> app))
+  (-> app
+      (wrap-params)))
 ;(wrap-defaults site-defaults)))
 ;(site #'app))
 
