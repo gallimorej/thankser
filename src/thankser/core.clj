@@ -1,17 +1,13 @@
 (ns thankser.core
-  (:require [thankser.mongodb :as mongodb]
-            [clojure.data.json :as json])
+  (:require [clojure.data.json :as json])
   (:gen-class))
 
 ;TODO: Load the map of thankses once
 
 (defn read-thankses!
   "Reads in the thankses from the default JSON file or specified mongodb"
-  ([]
-   (json/read-str (slurp "data/thankses.json") :key-fn keyword))
-  ([db]
-   (let [msgs (mongodb/get-documents!)]
-     (into {} msgs))))
+  []
+  (json/read-str (slurp "data/thankses.json") :key-fn keyword))
 
 (defn get-thanks
   "Get the appropriate thanks based on the language"
