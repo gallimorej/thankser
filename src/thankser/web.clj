@@ -51,9 +51,9 @@
            (GET "/say-thanks" {params :params}
                 (say-thanks-page (keyword (params LANGUAGE-KEY))))
            (POST "/say-thanks" {params :params}
-                (say-thanks-page (keyword (params LANGUAGE-KEY))))
+                (say-thanks-page (keyword (params LANGUAGE-KEY)))))
            (ANY "*" []
-                (route/not-found (slurp (io/resource "404.html")))))
+                (route/not-found (slurp (io/resource "404.html"))))
 
 (def handler
   (-> app
