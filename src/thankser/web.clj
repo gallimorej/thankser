@@ -32,7 +32,7 @@
 (defn handle-thanks-exception
   [e language]
   (if (str/starts-with? (.getMessage e) ty/LANGUAGE-NOT-FOUND)
-    (str "I don't know  how to say thank you in " language ".")
+    (str "I don't know how to say thank you in " (name language) ".")
     (str "Caught exception: " (.getMessage e))))
 
 (defn get-thanks-page-body [language]
@@ -51,9 +51,9 @@
            (GET "/say-thanks" {params :params}
                 (say-thanks-page (keyword (params LANGUAGE-KEY))))
            (POST "/say-thanks" {params :params}
-                (say-thanks-page (keyword (params LANGUAGE-KEY)))))
+                (say-thanks-page (keyword (params LANGUAGE-KEY))))
            (ANY "*" []
-                (route/not-found (slurp (io/resource "404.html"))))
+                (route/not-found (slurp (io/resource "404.html")))))
 
 (def handler
   (-> app
