@@ -31,7 +31,9 @@
 (defn say-thanks-page [language]
       {:status 200
        :headers {"Content-Type" "text/plain"}
-       :body (ty/get-thanks language)})
+       :body (try
+               (ty/get-thanks language)
+               (catch Exception e (str "caught exception: " (.getMessage e))))})
 
 (defroutes app
            (GET "/" []
@@ -40,7 +42,6 @@
                 (say-thanks-page (keyword (params LANGUAGE-KEY))))
            (POST "/say-thanks" {params :params}
                 (say-thanks-page (keyword (params LANGUAGE-KEY))))
-           (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
 

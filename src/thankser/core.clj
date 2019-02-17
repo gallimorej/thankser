@@ -2,19 +2,17 @@
   (:require [clojure.data.json :as json])
   (:gen-class))
 
-;TODO: Load the map of thankses once
-
-(defn read-thankses!
-  "Reads in the thankses from the default JSON file or specified mongodb"
-  []
-  (json/read-str (slurp "data/thankses.json") :key-fn keyword))
+;Reads in the thankses from the default JSON file
+(def thankses (json/read-str (slurp "data/thankses.json") :key-fn keyword))
 
 (defn get-thanks
   "Get the appropriate thanks based on the language"
   [language]
-  ;TODO: Handle the case where the language isn't in the map
-  ;(language (read-thankses! mongodb/db)))
-  (language (read-thankses!)))
+  (let [thanks (language thankses)]
+       (if thanks
+         thanks
+         (throw
+           (ex-info (str "Language not found: " language) {"language" language})))))
 
 (defn say-thanks
   ""
