@@ -36,19 +36,10 @@
 (defroutes app
            (GET "/" []
                 (splash))
-           (GET "/say-thanks-param" {params :params}
-                (println params)
-                (println (params LANGUAGE-KEY))
+           (GET "/say-thanks" {params :params}
                 (say-thanks-page (keyword (params LANGUAGE-KEY))))
-           (POST "/say-thanks-param" {params :params}
-                 (println (params LANGUAGE-KEY))
-                 (say-thanks-page (keyword (params LANGUAGE-KEY))))
-           (GET "/say-thanks" []
-                (say-thanks-page DEFAULT-LANGUAGE))
-           (POST "/say-thanks" []
-             (say-thanks-page DEFAULT-LANGUAGE))
-           (GET "/test"
-             {params :params} (prn "params:" params))
+           (POST "/say-thanks" {params :params}
+                (say-thanks-page (keyword (params LANGUAGE-KEY))))
            (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
