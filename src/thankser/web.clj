@@ -13,6 +13,10 @@
 ; https://practicalli.github.io/clojure-webapps/introducing-ring/
 ; https://learnxinyminutes.com/docs/compojure/
 
+(def DEFAULT-LANGUAGE :hawaiian)
+
+(def LANGUAGE-KEY "text")
+
 (defn body []
       (html
         [:div
@@ -27,19 +31,24 @@
 (defn say-thanks-page [language]
       {:status 200
        :headers {"Content-Type" "text/plain"}
-       :body (ty/say-thanks language)})
+       :body (ty/get-thanks language)})
 
 (defroutes app
            (GET "/" []
                 (splash))
-           (GET "/say-thanks-param" [text]
-                (say-thanks-page (keyword text)))
-           (POST "/say-thanks-param" [text]
-                 (say-thanks-page (keyword text)))
+           (GET "/say-thanks-param" {params :params}
+                (println params)
+                (println (params LANGUAGE-KEY))
+                (say-thanks-page (keyword (params LANGUAGE-KEY))))
+           (POST "/say-thanks-param" {params :params}
+                 (println (params LANGUAGE-KEY))
+                 (say-thanks-page (keyword (params LANGUAGE-KEY))))
            (GET "/say-thanks" []
-                (say-thanks-page :hawaiian))
+                (say-thanks-page DEFAULT-LANGUAGE))
            (POST "/say-thanks" []
-             (say-thanks-page :hawaiian))
+             (say-thanks-page DEFAULT-LANGUAGE))
+           (GET "/test"
+             {params :params} (prn "params:" params))
            (route/resources "/resources")
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
