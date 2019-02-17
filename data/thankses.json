@@ -1,9 +1,11 @@
 {
   "de":  "danke",
   "en":  "thanks",
+  "es":  "gracias",
   "fr":  "merci",
-  "german":  "danke",
   "english":  "thanks",
   "french":  "merci",
-  "hawaiian":  "mahalo"
+  "german":  "danke",
+  "hawaiian":  "mahalo",
+  "spanish":  "gracias"
 }

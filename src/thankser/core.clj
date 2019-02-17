@@ -2,6 +2,8 @@
   (:require [clojure.data.json :as json])
   (:gen-class))
 
+(def LANGUAGE-NOT-FOUND "Language not found")
+
 ;Reads in the thankses from the default JSON file
 (def thankses (json/read-str (slurp "data/thankses.json") :key-fn keyword))
 
@@ -12,7 +14,7 @@
        (if thanks
          thanks
          (throw
-           (ex-info (str "Language not found: " language) {"language" language})))))
+           (ex-info (str LANGUAGE-NOT-FOUND ": " language) {"language" language})))))
 
 (defn say-thanks
   ""

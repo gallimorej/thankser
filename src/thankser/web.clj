@@ -2,6 +2,7 @@
   (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.route :as route]
             [clojure.java.io :as io]
+            [clojure.string :as str]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
@@ -28,12 +29,21 @@
        :headers {"Content-Type" "text/html"}
        :body (body)})
 
+(defn handle-thanks-exception
+  [e language]
+  (if (str/starts-with? (.getMessage e) ty/LANGUAGE-NOT-FOUND)
+    (str "I don't know  how to say thank you in " language ".")
+    (str "Caught exception: " (.getMessage e))))
+
+(defn get-thanks-page-body [language]
+  (try
+     (ty/get-thanks (if (nil? language) DEFAULT-LANGUAGE language))
+     (catch Exception e (handle-thanks-exception e language))))
+
 (defn say-thanks-page [language]
       {:status 200
        :headers {"Content-Type" "text/plain"}
-       :body (try
-               (ty/get-thanks language)
-               (catch Exception e (str "caught exception: " (.getMessage e))))})
+       :body (get-thanks-page-body language)})
 
 (defroutes app
            (GET "/" []
