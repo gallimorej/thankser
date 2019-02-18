@@ -18,6 +18,10 @@
 
 (def SLACK-TEXT-KEY "text")
 
+; Pulled from https://www.rosettacode.org/wiki/Strip_a_set_of_characters_from_a_string#Clojure
+(defn strip [coll chars]
+  (apply str (remove #((set chars) %) coll)))
+
 (defn body []
       (html
         [:div
@@ -47,7 +51,8 @@
 
 (defn get-languages-page-body
   []
-  (str "TODO: Working on the language list..."))
+  (str "I know the following languages:\n"
+       (strip (pr-str (map name (ty/get-languages))) "()\"")))
 
 (defn get-thanks-page-body [slack-text]
   (case slack-text
