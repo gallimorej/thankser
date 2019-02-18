@@ -37,7 +37,10 @@
 
 (defn get-help-page-body
   []
-  (str "TODO: Working on the help..."))
+  (str "You invoked the following slash command: /ty\\n"
+       "To find out how to say thank you in a particular language, you need to identify the language using either the name of the language (like german) or the two-letter ISO 639 language code (like de).\\n"
+       "You can also find out which languages Thankser knows by typing the following command:\n"
+       "/ty ?"))
 
 (defn get-languages-page-body
   []
