@@ -16,7 +16,7 @@
 
 (def DEFAULT-LANGUAGE :hawaiian)
 
-(def LANGUAGE-KEY "text")
+(def SLACK-TEXT-KEY "text")
 
 (defn body []
       (html
@@ -35,23 +35,35 @@
     (str "I don't know how to say thank you in " (name language) ".")
     (str "Caught exception: " (.getMessage e))))
 
-(defn get-thanks-page-body [language]
-  (try
-     (ty/get-thanks (if (nil? language) DEFAULT-LANGUAGE language))
-     (catch Exception e (handle-thanks-exception e language))))
+(defn get-help-page-body
+  []
+  (str "TODO: Working on the help..."))
 
-(defn say-thanks-page [language]
+(defn get-languages-page-body
+  []
+  (str "TODO: Working on the language list..."))
+
+(defn get-thanks-page-body [slack-text]
+  (case slack-text
+    ("" nil) (get-help-page-body)
+    "?" (get-languages-page-body)
+    (let [language (keyword slack-text)]
+      (try
+        (ty/get-thanks language)
+        (catch Exception e (handle-thanks-exception e language))))))
+
+(defn say-thanks-page [slack-text]
       {:status 200
        :headers {"Content-Type" "text/plain"}
-       :body (get-thanks-page-body language)})
+       :body (get-thanks-page-body slack-text)})
 
 (defroutes app
            (GET "/" []
                 (splash))
            (GET "/say-thanks" {params :params}
-                (say-thanks-page (keyword (params LANGUAGE-KEY))))
+                (say-thanks-page (params SLACK-TEXT-KEY)))
            (POST "/say-thanks" {params :params}
-                (say-thanks-page (keyword (params LANGUAGE-KEY))))
+                (say-thanks-page (params SLACK-TEXT-KEY)))
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
 
