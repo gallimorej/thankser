@@ -51,7 +51,7 @@
 
 (defn get-languages-page-body
   []
-  (str "I know how to say thank you in the following languages:\n"
+  (str "Thankser knows how to say thank you in the following languages:\n"
        (strip (pr-str (map name (ty/get-languages))) "()\"")))
 
 (defn get-thanks-page-body [slack-text]
