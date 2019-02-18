@@ -1,13 +1,15 @@
 {
-  "de":  "danke",
-  "en":  "thanks",
-  "es":  "gracias",
-  "fr":  "merci",
-  "ru":  "blagodaryu vas",
-  "english":  "thanks",
-  "french":  "merci",
-  "german":  "danke",
-  "hawaiian":  "mahalo",
-  "russian":  "blagodaryu vas",
-  "spanish":  "gracias"
+  "de":  "Danke",
+  "german":  "Danke",
+  "en":  "Thanks",
+  "english":  "Thanks",
+  "es":  "Gracias",
+  "spanish":  "Gracias",
+  "fr":  "Merci",
+  "french":  "Merci",
+  "japanese": "Arigatōgozaimashita",
+  "ja": "Arigatōgozaimashita",
+  "ru":  "Blagodaryu vas",
+  "russian":  "Blagodaryu vas",
+  "hawaiian":  "Mahalo"
 }
