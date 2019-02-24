@@ -68,6 +68,18 @@
        :headers {"Content-Type" "text/plain"}
        :body (get-thanks-page-body slack-text)})
 
+(defn get-unknown-languages-page-body []
+  (html
+   [:div
+    [:h1 "Unknown Languages"]
+    [:ul (for [unknown-language (keys (deref ty/unknown-languages))]
+           [:li (str (name unknown-language) " = " (@ty/unknown-languages unknown-language))])]]))
+
+(defn show-unknown-languages-page []
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body (get-unknown-languages-page-body)})
+
 (defroutes app
            (GET "/" []
                 (splash))
@@ -75,6 +87,8 @@
                 (say-thanks-page (params SLACK-TEXT-KEY)))
            (POST "/say-thanks" {params :params}
                 (say-thanks-page (params SLACK-TEXT-KEY)))
+           (GET "/show-unknown-languages" {}
+                (show-unknown-languages-page))
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
 
