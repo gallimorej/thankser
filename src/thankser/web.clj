@@ -57,14 +57,16 @@
 (defn get-thanks-page-body
   [slack-text]
   (case slack-text
-    ("" nil) (get-help-page-body)
+    ("" nil "help") (get-help-page-body)
     "?" (get-languages-page-body)
     (let [slack-params (str/split slack-text #" ")
           language (keyword (first slack-params))]
       (try
-        (str (ty/get-thanks language)
+        (str "{ \"response-type\": \"in-channel\", \"text\": \""
+             (ty/get-thanks language)
              (if (> (count slack-params) 1)
-               (str ", " (apply str (interpose " " (rest slack-params))) "")))
+               (str ", " (apply str (interpose " " (rest slack-params))) ""))
+             "\" }")
         (catch Exception e (handle-thanks-exception e language))))))
 
 (defn say-thanks-page [slack-text]
