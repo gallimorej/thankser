@@ -54,13 +54,17 @@
   (str "Thankser knows how to say thank you in the following languages:\n"
        (strip (pr-str (map name (ty/get-languages))) "()\"")))
 
-(defn get-thanks-page-body [slack-text]
+(defn get-thanks-page-body
+  [slack-text]
   (case slack-text
     ("" nil) (get-help-page-body)
     "?" (get-languages-page-body)
-    (let [language (keyword slack-text)]
+    (let [slack-params (str/split slack-text #" ")
+          language (keyword (first slack-params))]
       (try
-        (ty/get-thanks language)
+        (str (ty/get-thanks language)
+             (if (> (count slack-params) 1)
+               (str ", " (apply str (interpose " " (rest slack-params))) "")))
         (catch Exception e (handle-thanks-exception e language))))))
 
 (defn say-thanks-page [slack-text]

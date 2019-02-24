@@ -5,7 +5,7 @@
 autotest:
 	lein test-refresh :growl
 
-slack:
+thankser:
 	lein run
 
 ring:
@@ -27,11 +27,11 @@ uberjar:
 
 push-heroku:
 	# usually you'll want to use this...
-	#git push heroku master
+	git push heroku master
 	#
 	# but when you need to push from non-master branch, use this...
 	#
-	git push heroku add-worker:master
+	#git push heroku add-worker:master
 
 open-heroku:
 	heroku open
