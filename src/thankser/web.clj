@@ -62,7 +62,7 @@
     (let [slack-params (str/split slack-text #" ")
           language (keyword (first slack-params))]
       (try
-        (str "{ \"response-type\": \"in-channel\", \"text\": \""
+        (str "{ \"response-type\": \"in_channel\", \"text\": \""
              (ty/get-thanks language)
              (if (> (count slack-params) 1)
                (str ", " (apply str (interpose " " (rest slack-params))) ""))
