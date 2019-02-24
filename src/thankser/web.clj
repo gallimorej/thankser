@@ -47,7 +47,10 @@
        "/ty german\n"
        "/ty de\n"
        "You can also find out which languages Thankser knows by typing the following command:\n"
-       "/ty ?"))
+       "/ty ?\n"
+       "Finally, if you want to thank someone directly, you can @mention them following the language you want. You can @mention as many people as you'd like to thank.\n"
+       "For example:\n"
+       "/ty german @SlackUser"))
 
 (defn get-languages-page-body
   []
