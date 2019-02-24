@@ -71,7 +71,7 @@
 
 (defn say-thanks-page [slack-text]
       {:status 200
-       :headers {"Content-Type" "text/plain"}
+       :headers {"Content-Type" "application/json"}
        :body (get-thanks-page-body slack-text)})
 
 (defn get-unknown-languages-page-body []
