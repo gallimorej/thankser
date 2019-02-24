@@ -7,14 +7,26 @@
 ;Reads in the thankses from the default JSON file
 (def thankses (json/read-str (slurp "data/thankses.json") :key-fn keyword))
 
+(def unknown-languages (atom {}))
+
+;Handle two cases
+;The unknown language isn't in the map, in which case add it with a call count of 1 (that is the "fnil" expression)
+;The unknown language is in the map, in which case increment the call count
+(defn log-unknown-language!
+  [unknown-language]
+  (swap! unknown-languages assoc unknown-language ((fnil inc 0) (@unknown-languages unknown-language))))
+
 (defn get-thanks
   "Gets the appropriate thanks based on the language"
   [language]
   (let [thanks (language thankses)]
        (if thanks
          thanks
-         (throw
-           (ex-info (str LANGUAGE-NOT-FOUND ": " language) {"language" language})))))
+         (do
+           (log-unknown-language! language)
+           (throw
+             (ex-info (str LANGUAGE-NOT-FOUND ": " language) {"language" language}))))))
+
 
 (defn say-thanks
   "Gets the thank you corresponding to the specified langauge"
