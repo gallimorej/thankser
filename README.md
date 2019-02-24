@@ -32,4 +32,4 @@ FIXME: listing of options this app accepts.
 
 Copyright © 2019 Jeff Gallimore
 
-Distributed under the [Eclipse Public License either version 1.0](https://www.eclipse.org/legal/epl-v10.html).
+Distributed under the [Eclipse Public License version 1.0](https://www.eclipse.org/legal/epl-v10.html).
