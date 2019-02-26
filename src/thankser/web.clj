@@ -3,6 +3,7 @@
             [compojure.route :as route]
             [clojure.java.io :as io]
             [clojure.string :as str]
+            [clojure.data.json :as json]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
@@ -60,16 +61,17 @@
 (defn get-thanks-page-body
   [slack-text]
   (case slack-text
-    ("" nil "help") (get-help-page-body)
-    "?" (get-languages-page-body)
+    ("" nil "help") (json/write-str {:response_type "ephemeral"
+                                     :text (get-help-page-body)})
+    "?" (json/write-str {:response_type "ephemeral"
+                         :text (get-languages-page-body)})
     (let [slack-params (str/split slack-text #" ")
           language (keyword (first slack-params))]
       (try
-        (str "{ \"response_type\": \"in_channel\", \"text\": \""
-             (ty/get-thanks language)
-             (if (> (count slack-params) 1)
-               (str ", " (apply str (interpose " " (rest slack-params))) ""))
-             "\" }")
+        (json/write-str {:response_type "in_channel"
+                         :text (str (ty/get-thanks language)
+                                    (if (> (count slack-params) 1)
+                                      (str ", " (apply str (interpose " " (rest slack-params))) "")))})
         (catch Exception e (handle-thanks-exception e language))))))
 
 (defn say-thanks-page [slack-text]
