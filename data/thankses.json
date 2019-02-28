@@ -19,5 +19,9 @@
   "russian":  "Blagodaryu vas",
   "tr": "Teşekkürler",
   "turkish": "Teşekkürler",
-  "hawaiian":  "Mahalo"
+  "hawaiian":  "Mahalo",
+  "snark": {
+    "1": "My boss told me to show more appreciation, so thanks",
+    "2": "Social convention indicates I should thank you"
+  }
 }

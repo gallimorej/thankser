@@ -4,6 +4,8 @@
 
 (def LANGUAGE-NOT-FOUND "Language not found")
 
+(def SNARK :snark)
+
 ;Reads in the thankses from the default JSON file
 (def thankses (json/read-str (slurp "data/thankses.json") :key-fn keyword))
 
@@ -16,17 +18,24 @@
   [unknown-language]
   (swap! unknown-languages assoc unknown-language ((fnil inc 0) (@unknown-languages unknown-language))))
 
+(defn get-snark-thanks
+  "Get a random snarky thanks"
+  []
+  (let [snarky-thankses (SNARK thankses)]
+    ((nth (keys snarky-thankses) (rand-int (count snarky-thankses))) snarky-thankses)))
+
 (defn get-thanks
   "Gets the appropriate thanks based on the language"
   [language]
-  (let [thanks (language thankses)]
-       (if thanks
-         thanks
-         (do
-           (log-unknown-language! language)
-           (throw
-             (ex-info (str LANGUAGE-NOT-FOUND ": " language) {"language" language}))))))
-
+  (if (= language SNARK)
+    (get-snark-thanks)
+    (let [thanks (language thankses)]
+      (if thanks
+        thanks
+        (do
+          (log-unknown-language! language)
+          (throw
+            (ex-info (str LANGUAGE-NOT-FOUND ": " language) {"language" language})))))))
 
 (defn say-thanks
   "Gets the thank you corresponding to the specified langauge"
