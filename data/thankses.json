@@ -1,4 +1,8 @@
 {
+  "am": "āmeseginalehu",
+  "amharic": "āmeseginalehu",
+  "da": "Tak",
+  "danish": "Tak",
   "de":  "Danke",
   "german":  "Danke",
   "en":  "Thanks",
@@ -13,5 +17,7 @@
   "ja": "Arigatōgozaimashita",
   "ru":  "Blagodaryu vas",
   "russian":  "Blagodaryu vas",
+  "tr": "Teşekkürler",
+  "turkish": "Teşekkürler",
   "hawaiian":  "Mahalo"
 }
