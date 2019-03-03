@@ -8,6 +8,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [thankser.core :as ty]
+            [thankser.mongodb :as tm]
             [environ.core :refer [env]]
             [hiccup.core :refer [html]])
   (:gen-class))
@@ -84,7 +85,10 @@
    [:div
     [:h1 "Unknown Languages"]
     [:ul (for [unknown-language (keys (deref ty/unknown-languages))]
-           [:li (str (name unknown-language) " = " (@ty/unknown-languages unknown-language))])]]))
+           [:li (str (name unknown-language) " = " (@ty/unknown-languages unknown-language))])]
+    [:p "From the database"]
+    [:p (tm/count-documents)]]))
+
 
 (defn show-unknown-languages-page []
   {:status 200

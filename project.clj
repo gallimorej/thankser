@@ -10,7 +10,7 @@
                  [compojure "1.6.1"]
                  [ring/ring-jetty-adapter "1.7.1"]
                  [ring/ring-defaults "0.3.2"]
-                 [environ "1.0.2"]
+                 [environ "1.1.0"]
                  [hiccup "1.0.5"]]
 
   :min-lein-version "2.0.0"
