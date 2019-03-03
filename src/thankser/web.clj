@@ -82,13 +82,10 @@
 
 (defn get-unknown-languages-page-body []
   (html
-   [:div
-    [:h1 "Unknown Languages"]
-    [:ul (for [unknown-language (keys (deref ty/unknown-languages))]
-           [:li (str (name unknown-language) " = " (@ty/unknown-languages unknown-language))])]
-    [:p "From the database"]
-    [:p (tm/count-documents)]]))
-
+    [:div
+     [:h1 "Unknown Languages"]
+     [:ul (for [unknown-language (keys (deref ty/unknown-languages))]
+            [:li (str (name unknown-language) " = " (@ty/unknown-languages unknown-language))])]]))
 
 (defn show-unknown-languages-page []
   {:status 200

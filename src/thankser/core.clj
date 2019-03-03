@@ -1,5 +1,6 @@
 (ns thankser.core
-  (:require [clojure.data.json :as json])
+  (:require [clojure.data.json :as json]
+            [thankser.mongodb :as mongodb])
   (:gen-class))
 
 (def LANGUAGE-NOT-FOUND "Language not found")
@@ -9,7 +10,8 @@
 ;Reads in the thankses from the default JSON file
 (def thankses (json/read-str (slurp "data/thankses.json") :key-fn keyword))
 
-(def unknown-languages (atom {}))
+;Initializes the unknown languages from the mongodb database
+(def unknown-languages (atom (first (mongodb/get-documents!))))
 
 ;Handle two cases
 ;The unknown language isn't in the map, in which case add it with a call count of 1 (that is the "fnil" expression)
@@ -46,6 +48,11 @@
   "Returns the languages that Thankser knows"
   []
   (sort (keys thankses)))
+
+(defn get-unknown-languages
+  "Returns the map of unknown languages and the count"
+  []
+  (rest (first (mongodb/get-documents!))))
 
 (defn -main
   "I don't do a whole lot ... yet."
