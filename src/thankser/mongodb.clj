@@ -60,6 +60,10 @@
 ; end
 ;
 
+(defn update-unknown-languages
+  [unknown-languages]
+  (mc/update-by-id (:db @db) UNKNOWN-LANGUAGES-COLL (:_id unknown-languages) unknown-languages))
+
 (defn get-documents!
   []
   (let [{:keys [conn db]} (mg/connect-via-uri uri)]

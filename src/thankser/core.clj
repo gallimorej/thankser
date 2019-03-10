@@ -18,7 +18,9 @@
 ;The unknown language is in the map, in which case increment the call count
 (defn log-unknown-language!
   [unknown-language]
-  (swap! unknown-languages assoc unknown-language ((fnil inc 0) (@unknown-languages unknown-language))))
+  (do
+    (swap! unknown-languages assoc unknown-language ((fnil inc 0) (@unknown-languages unknown-language)))
+    (mongodb/update-unknown-languages (deref unknown-languages))))
 
 (defn get-snark-thanks
   "Get a random snarky thanks"

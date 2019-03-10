@@ -16,8 +16,6 @@
 ; https://practicalli.github.io/clojure-webapps/introducing-ring/
 ; https://learnxinyminutes.com/docs/compojure/
 
-(def DEFAULT-LANGUAGE :hawaiian)
-
 (def SLACK-TEXT-KEY "text")
 
 ; Pulled from https://www.rosettacode.org/wiki/Strip_a_set_of_characters_from_a_string#Clojure
