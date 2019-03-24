@@ -1,5 +1,5 @@
 (defproject thankser "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "Thankser is a slackbot that says \"thank you\" in various languages. When just saying a simple \"thanks\" isn't enough, add some novelty by using a different tongue."
   :url "http://thankser.herokuapp.com"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
