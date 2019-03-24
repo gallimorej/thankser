@@ -33,7 +33,9 @@ Setting up your own Thankser configuration is a little more involved.
 
 1. Set up a MongoDB instance. (I use a hosted MongoDB instance from [mLab](https://mlab.com/).) 
 2. Deploy Thankser somewhere. (As you can tell, the shared Thanker setup is in [Heroku](https://www.heroku.com/).)
-3. Create the `/ty` slash command in your workspace like you would in for the [Shared Thankser](#shared-thankser) setup.
+3. Create the `/ty` slash command in your workspace like you would for the [Shared Thankser](#shared-thankser) setup.
+
+If you need more information to get your own Thankser configuration up and running, reach out and I'll try to help.
 
 ## Usage
 
