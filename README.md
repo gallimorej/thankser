@@ -28,6 +28,8 @@ Usage Hint | `[language] [optional: any text following the thanks, including @me
 
 Also, check the box for the __Escape channels, users, and links sent to your app__ setting.
 
+*__Note:__ I'm using the free tier in Heroku, which causes the dyno to sleep if it's not used. This means that calls to Thankser from Slack may time out and return an error. Fret not. Wait five or ten seconds and try again. At some point, maybe I'll upgrade to a paid plan so this doesn't happen.*
+
 ### Your own Thankser
 Setting up your own Thankser configuration is a little more involved.
 
