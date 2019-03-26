@@ -91,10 +91,10 @@ To add new languages to Thankser, modify the [`thankses.json`](https://github.co
 
 ## Origins of Thankser
 
-###The idea
+### The idea
 The idea for Thankser originated from some feedback I received from a colleague. She told me she and others really appreciated it when I said "thank you" after they had done something to support me. She said I was "pretty good" about doing that. Maybe even better than most. But "pretty good" isn't good enough. I needed to be better at the basics. Building Thankser was a way for me to internalize that feedback. It's hard for me to forget to say thank you now when I've spent so much time building an app that does just that.
 
-###Clojure
+### Clojure
 I wanted to make a run at learning to code again. [I asked the Twitterverse which language I should start with.](https://twitter.com/jgallimore/status/1051264810321633280) I got lots of input, but what cinched it for me was [Gene Kim's](https://twitter.com/RealGeneKim) response. First, he told me Clojure had "changed his life" and helped him rediscover the joy of programming. He also said he would be willing to pair with me. How could I pass that up a life-changing experience and learning from Gene? 
 
 The fact that I could even build Thankser at all is a credit to Gene's efforts in teaching me. In addition to learning the Clojure language, it's been a long time since I've coded anything so I had a lot to learn about lots of stuff to even get "hello, world" working. But I had a lot of fun learning it all. Thanks to Gene for sharing his time, talents, and knowledge to make me productive in an IDE again. 
