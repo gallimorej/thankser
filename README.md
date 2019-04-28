@@ -1,6 +1,6 @@
 # Thankser
 
-Thankser is a slackbot that says "thank you" in various languages. When just saying a simple "thanks" isn't enough, add some novelty by using a different tongue.
+Thankser is a Slackbot that says "thank you" in various languages. When just saying a simple "thanks" isn't enough, add some novelty by using a different tongue.
 
 ## Features
 
