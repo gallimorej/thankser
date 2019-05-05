@@ -16,26 +16,30 @@
 ; https://practicalli.github.io/clojure-webapps/introducing-ring/
 ; https://learnxinyminutes.com/docs/compojure/
 
-(def SLACK-TEXT-KEY "text")
+(def slack-text-key "text")
 
 ; Pulled from https://www.rosettacode.org/wiki/Strip_a_set_of_characters_from_a_string#Clojure
 (defn strip [coll chars]
   (apply str (remove #((set chars) %) coll)))
 
-(defn body []
-      (html
-        [:div
-         [:h1 "Greetings!!!"]
-         [:p "Hello from Thankser."]]))
+(defn response
+  [status body]
+  {:status status
+   :headers {"Content-Type" "text/html"}
+   :body body})
 
-(defn splash []
-      {:status 200
-       :headers {"Content-Type" "text/html"}
-       :body (body)})
+(def ok (partial response 200))
+(def bad-request (partial response 400))
+(def not-found (partial response 404))
+
+(def splash (ok (html
+                   [:div
+                    [:h1 "Greetings!!!"]
+                    [:p "Hello from Thankser."]])))
 
 (defn handle-thanks-exception
   [e language]
-  (if (str/starts-with? (.getMessage e) ty/LANGUAGE-NOT-FOUND)
+  (if (str/starts-with? (.getMessage e) ty/language-not-found)
     (str "I don't know how to say thank you in " (name language) ".")
     (str "Caught exception: " (.getMessage e))))
 
@@ -94,9 +98,9 @@
            (GET "/" []
                 (splash))
            (GET "/say-thanks" {params :params}
-                (say-thanks-page (params SLACK-TEXT-KEY)))
+                (say-thanks-page (params slack-text-key)))
            (POST "/say-thanks" {params :params}
-                (say-thanks-page (params SLACK-TEXT-KEY)))
+                (say-thanks-page (params slack-text-key)))
            (GET "/show-unknown-languages" {}
                 (show-unknown-languages-page))
            (ANY "*" []
