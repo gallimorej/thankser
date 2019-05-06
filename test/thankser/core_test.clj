@@ -4,7 +4,7 @@
 
 (deftest get-thanks-test
   (testing "Testing get-thanks"
-    (get-thanks "hawaiian")))
+    (get-thanks :hawaiian)))
 
 (deftest get-snark-thanks-test
   (testing "Testing get-snark-thanks"
