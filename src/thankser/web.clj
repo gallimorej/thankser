@@ -18,28 +18,27 @@
 
 (def slack-text-key "text")
 
+(def html-header {"Content-Type" "text/html"})
+(def json-header {"Content-Type" "application/json"})
+
 ; Pulled from https://www.rosettacode.org/wiki/Strip_a_set_of_characters_from_a_string#Clojure
 (defn strip [coll chars]
   (apply str (remove #((set chars) %) coll)))
 
 (defn response
-  [status body]
+  [status headers body]
   {:status status
-   :headers {"Content-Type" "text/html"}
+   :headers headers
    :body body})
-
-(def splash-body (html
-                   [:div
-                    [:h1 "Greetings!!!"]
-                    [:p "Hello from Thankser."]]))
 
 (def ok (partial response 200))
 (def bad-request (partial response 400))
 (def not-found (partial response 404))
 
-(defn splash
-  []
-  (ok splash-body))
+(def splash (ok html-header (html
+                              [:div
+                               [:h1 "Greetings!!!"]
+                               [:p "Hello from Thankser."]])))
 
 (defn handle-thanks-exception
   [e language]
@@ -82,9 +81,7 @@
         (catch Exception e (handle-thanks-exception e language))))))
 
 (defn say-thanks-page [slack-text]
-      {:status 200
-       :headers {"Content-Type" "application/json"}
-       :body (get-thanks-page-body slack-text)})
+  (ok json-header (get-thanks-page-body slack-text)))
 
 (defn get-unknown-languages-page-body []
   (html
@@ -94,11 +91,10 @@
             [:li (str (name unknown-language) " = " (@ty/unknown-languages unknown-language))])]]))
 
 (defn show-unknown-languages-page []
-  (ok (get-unknown-languages-page-body)))
+  (ok html-header (get-unknown-languages-page-body)))
 
 (defroutes app
-           (GET "/" []
-                (splash))
+           (GET "/" [] splash)
            (GET "/say-thanks" {params :params}
                 (say-thanks-page (params slack-text-key)))
            (POST "/say-thanks" {params :params}

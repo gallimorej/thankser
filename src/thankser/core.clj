@@ -21,6 +21,7 @@
   (swap! unknown-languages update unknown-language safe-inc)
   (mongodb/update-unknown-languages! (deref unknown-languages)))
 
+;There's a code smell in here
 (defn get-snark-thanks
   "Get a random snarky thanks"
   []

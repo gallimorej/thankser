@@ -85,8 +85,10 @@
                      {:upsert true})
         n (.getN r)]))
 
-(defn test-db
-  " do a test transaction "
-  []
-  (let [{:keys [conn db]} (mg/connect-via-uri uri)]
-    (mc/insert-and-return db "documents" {:name "John" :age 30})))
+(comment
+  (defn test-db
+    " do a test transaction "
+    []
+    (let [{:keys [conn db]} (mg/connect-via-uri uri)]
+      (mc/insert-and-return db "documents" {:name "John" :age 30}))))
+
