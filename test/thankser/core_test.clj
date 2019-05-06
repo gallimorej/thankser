@@ -1,12 +1,15 @@
 (ns thankser.core-test
   (:require [clojure.test :refer :all]
-            [thankser.core :refer :all]
-            [thankser.web :refer :all]))
+            [thankser.core :refer :all]))
 
-(deftest show-unknown-languages-test
-  (testing "Testing show-unknown-languages"
-    (show-unknown-languages-page)))
+(deftest get-thanks-test
+  (testing "Testing get-thanks"
+    (get-thanks "hawaiian")))
 
-(deftest say-thanks-page-test
-  (testing "Testing say-thanks-page"
-    (say-thanks-page "hawaiian")))
+(deftest get-snark-thanks-test
+  (testing "Testing get-snark-thanks"
+    (get-snark-thanks)))
+
+(deftest get-languages-test
+  (testing "Testing get-languages"
+    (get-languages)))
