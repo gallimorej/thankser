@@ -28,14 +28,18 @@
    :headers {"Content-Type" "text/html"}
    :body body})
 
+(def splash-body (html
+                   [:div
+                    [:h1 "Greetings!!!"]
+                    [:p "Hello from Thankser."]]))
+
 (def ok (partial response 200))
 (def bad-request (partial response 400))
 (def not-found (partial response 404))
 
-(def splash (ok (html
-                   [:div
-                    [:h1 "Greetings!!!"]
-                    [:p "Hello from Thankser."]])))
+(defn splash
+  []
+  (ok splash-body))
 
 (defn handle-thanks-exception
   [e language]
@@ -90,9 +94,7 @@
             [:li (str (name unknown-language) " = " (@ty/unknown-languages unknown-language))])]]))
 
 (defn show-unknown-languages-page []
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (get-unknown-languages-page-body)})
+  (ok (get-unknown-languages-page-body)))
 
 (defroutes app
            (GET "/" []
