@@ -64,10 +64,10 @@
 (defn get-thanks-page-body
   [slack-text thankses]
   (case slack-text
-    ("" nil "help") ({:response_type :ephemeral
-                      :text help-page-body})
-    "?" ({:response_type :ephemeral
-          :text (get-languages-page-body)})
+    ("" nil "help") {:response_type :ephemeral
+                     :text help-page-body}
+    "?" {:response_type :ephemeral
+         :text (get-languages-page-body)}
     (let [slack-params (str/split slack-text #" ")
           language (keyword (first slack-params))]
       (let [the-thanks (ty/get-thanks language thankses)]
