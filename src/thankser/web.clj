@@ -98,7 +98,7 @@
 
 (defn construct-thanks-response
   [thanks-response]
-  (json/write-str (:body thanks-response)))
+  (json/write-str thanks-response))
 
 ; TODO call handle-request then call construct-response based on return value from handle-request
 ; TODO put side effect of updating mongo IF the language isn't found
