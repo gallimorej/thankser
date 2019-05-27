@@ -11,8 +11,6 @@
 
 (defonce db (atom nil))
 
-(def unknown-languages-coll "unknown-languages")
-
 ; connection to monggodb
 (reset! db
         (try
@@ -37,9 +35,9 @@
 
 (defn count-documents
   " count how many documents in the database "
-  []
+  [coll]
   ;      [=> int?]
-  (mc/count (:db @db) unknown-languages-coll))
+  (mc/count (:db @db) coll))
 
 (defn delete-all-documents!
   " because of danger, first arg must be 'confirm' "
@@ -52,22 +50,22 @@
     false))
 
 (defn load-documents!
-  [collection]
+  [coll collection]
   (let [{:keys [conn db]} (mg/connect-via-uri uri)]
-    (mc/insert-batch db unknown-languages-coll collection)))
+    (mc/insert-batch db coll collection)))
 
 ;
 ; end
 ;
 
 (defn update-unknown-languages!
-  [unknown-languages]
-  (mc/update-by-id (:db @db) unknown-languages-coll (:_id unknown-languages) unknown-languages))
+  [coll unknown-languages]
+  (mc/update-by-id (:db @db) coll (:_id unknown-languages) unknown-languages))
 
 (defn get-documents!
-  []
+  [coll]
   (let [{:keys [conn db]} (mg/connect-via-uri uri)]
-    (mc/find-maps db unknown-languages-coll)))
+    (mc/find-maps db coll)))
 
 
 (defn- testx [username record]

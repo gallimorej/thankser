@@ -40,24 +40,21 @@
                                [:h1 "Greetings!!!"]
                                [:p "Hello from Thankser."]])))
 
-(defn handle-thanks-exception
-  [e language]
-  (if (str/starts-with? (.getMessage e) ty/language-not-found)
-    (str "I don't know how to say thank you in " (name language) ".")
-    (str "Caught exception: " (.getMessage e))))
+(defn handle-language-not-found
+  [language]
+  (str "I don't know how to say thank you in " (name language) "."))
 
-(defn get-help-page-body
-  []
-  (str "You invoked the following slash command: /ty\n"
-       "To find out how to say thank you in a particular language, you need to identify the language using either the name of the language (like german) or the two-letter ISO 639 language code (like de).\n"
-       "For example:\n"
-       "/ty german\n"
-       "/ty de\n"
-       "You can also find out which languages Thankser knows by typing the following command:\n"
-       "/ty ?\n"
-       "Finally, if you want to thank someone directly, you can @mention them following the language you want. You can @mention as many people as you'd like to thank.\n"
-       "For example:\n"
-       "/ty german @SlackUser"))
+(def help-page-body
+  (str/join "\n" ["You invoked the following slash command: /ty"
+                  "To find out how to say thank you in a particular language, you need to identify the language using either the name of the language (like german) or the two-letter ISO 639 language code (like de)."
+                  "For example:"
+                  "/ty german"
+                  "/ty de"
+                  "You can also find out which languages Thankser knows by typing the following command:"
+                  "/ty ?"
+                  "Finally, if you want to thank someone directly, you can @mention them following the language you want. You can @mention as many people as you'd like to thank."
+                  "For example:"
+                  "/ty german @SlackUser"]))
 
 (defn get-languages-page-body
   []
@@ -65,23 +62,25 @@
        (strip (pr-str (map name (ty/get-languages))) "()\"")))
 
 (defn get-thanks-page-body
-  [slack-text]
+  [slack-text thankses]
   (case slack-text
-    ("" nil "help") (json/write-str {:response_type "ephemeral"
-                                     :text (get-help-page-body)})
-    "?" (json/write-str {:response_type "ephemeral"
-                         :text (get-languages-page-body)})
+    ("" nil "help") ({:response_type :ephemeral
+                      :text help-page-body})
+    "?" ({:response_type :ephemeral
+          :text (get-languages-page-body)})
     (let [slack-params (str/split slack-text #" ")
           language (keyword (first slack-params))]
-      (try
-        (json/write-str {:response_type "in_channel"
-                         :text (str (ty/get-thanks language)
-                                    (if (> (count slack-params) 1)
-                                      (str ", " (apply str (interpose " " (rest slack-params))) "")))})
-        (catch Exception e (handle-thanks-exception e language))))))
+      (let [the-thanks (ty/get-thanks language thankses)]
+        (if (= :not-found the-thanks)
+          {:response_type :ephemeral
+           :text (handle-language-not-found language)}
+          {:response_type :in_channel
+           :text (str the-thanks
+                      (if (> (count slack-params) 1)
+                        (str " " (str/join " " (rest slack-params)))))})))))
 
-(defn say-thanks-page [slack-text]
-  (ok json-header (get-thanks-page-body slack-text)))
+(defn say-thanks-page [slack-text thankses]
+  (ok json-header (get-thanks-page-body slack-text thankses)))
 
 (defn get-unknown-languages-page-body []
   (html
@@ -93,12 +92,22 @@
 (defn show-unknown-languages-page []
   (ok html-header (get-unknown-languages-page-body)))
 
+;TODO handle-request
+;TODO handle-request will return EITHER the expected value of the request or a key indicating something that went wrong -- like :not-found
+(defn handle-thanks-request [])
+
+(defn construct-thanks-response
+  [thanks-response]
+  (json/write-str thanks-response))
+
+; TODO call handle-request then call construct-response based on return value from handle-request
+; TODO put side effect of updating mongo IF the language isn't found
 (defroutes app
            (GET "/" [] splash)
            (GET "/say-thanks" {params :params}
-                (say-thanks-page (params slack-text-key)))
+                (construct-thanks-response (say-thanks-page (params slack-text-key) ty/thankses)))
            (POST "/say-thanks" {params :params}
-                (say-thanks-page (params slack-text-key)))
+                (construct-thanks-response (say-thanks-page (params slack-text-key) ty/thankses)))
            (GET "/show-unknown-languages" {}
                 (show-unknown-languages-page))
            (ANY "*" []

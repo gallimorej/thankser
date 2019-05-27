@@ -13,3 +13,6 @@
 (deftest get-languages-test
   (testing "Testing get-languages"
     (get-languages)))
+
+;TODO write new test with actual assertions
+;TODO like get-thanks with an empty map

@@ -8,8 +8,10 @@
 ;Reads in the thankses from the default JSON file
 (def thankses (json/read-str (slurp "data/thankses.json") :key-fn keyword))
 
+(def unknown-languages-coll "unknown-languages")
+
 ;Initializes the unknown languages from the mongodb database
-(def unknown-languages (atom (first (mongodb/get-documents!))))
+(def unknown-languages (atom (first (mongodb/get-documents! unknown-languages-coll))))
 
 (def safe-inc (fnil inc 0))
 
@@ -19,27 +21,19 @@
 (defn log-unknown-language!
   [unknown-language]
   (swap! unknown-languages update unknown-language safe-inc)
-  (mongodb/update-unknown-languages! (deref unknown-languages)))
+  (mongodb/update-unknown-languages! unknown-languages-coll @unknown-languages))
 
-;There's a code smell in here
-(defn get-snark-thanks
-  "Get a random snarky thanks"
-  []
-  (let [snarky-thankses (:snark thankses)]
-    ((nth (keys snarky-thankses) (rand-int (count snarky-thankses))) snarky-thankses)))
+(defn get-one-thanks
+  "Get one thanks"
+  [x-or-xs]
+  (rand-nth (if (coll? x-or-xs) x-or-xs [x-or-xs])))
 
 (defn get-thanks
   "Gets the appropriate thanks based on the language"
-  [language]
-  (if (= language :snark)
-    (get-snark-thanks)
-    (let [thanks (language thankses)]
-      (if thanks
-        thanks
-        (do
-          (log-unknown-language! language)
-          (throw
-            (ex-info (str language-not-found ": " language) {"language" language})))))))
+  [language thankses]
+  (if-let [thanks (get-one-thanks (language thankses))]
+    thanks
+    :not-found))
 
 (defn get-languages
   "Returns the languages that Thankser knows"
@@ -56,11 +50,20 @@
     (defn get-unknown-languages
       "Returns the map of unknown languages and the count"
       []
-      (rest (first (mongodb/get-documents!))))
+      (rest (first (mongodb/get-documents! unknown-languages-coll))))
 
     (defn -main
       "I don't do a whole lot ... yet."
       [& args]
-      (println "Hello, World!")))
+      (println "Hello, World!"))
+
+    (do
+      (log-unknown-language! language)
+      ;TODO don't throw an exception. instead, return an exception key -- like :not-found
+      (throw
+        (ex-info (str language-not-found ": " language) {"language" language}))))
+
+
+
 
 
