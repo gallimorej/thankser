@@ -64,17 +64,17 @@
 (defn get-thanks-page-body
   [slack-text thankses]
   (case slack-text
-    ("" nil "help") {:response_type :ephemeral
+    ("" nil "help") {:response_type "ephemeral"
                      :text help-page-body}
-    "?" {:response_type :ephemeral
+    "?" {:response_type "ephemeral"
          :text (get-languages-page-body)}
     (let [slack-params (str/split slack-text #" ")
           language (keyword (first slack-params))]
       (let [the-thanks (ty/get-thanks language thankses)]
         (if (= :not-found the-thanks)
-          {:response_type :ephemeral
+          {:response_type "ephemeral"
            :text (handle-language-not-found language)}
-          {:response_type :in_channel
+          {:response_type "in_channel"
            :text (str the-thanks
                       (if (> (count slack-params) 1)
                         (str " " (str/join " " (rest slack-params)))))})))))
@@ -98,7 +98,7 @@
 
 (defn construct-thanks-response
   [thanks-response]
-  (json/write-str thanks-response))
+  thanks-response)
 
 ; TODO call handle-request then call construct-response based on return value from handle-request
 ; TODO put side effect of updating mongo IF the language isn't found
