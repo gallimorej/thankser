@@ -80,7 +80,7 @@
                         (str " " (str/join " " (rest slack-params)))))})))))
 
 (defn say-thanks-page [slack-text thankses]
-  (ok json-header (get-thanks-page-body slack-text thankses)))
+  (ok json-header (json/write-str (get-thanks-page-body slack-text thankses))))
 
 (defn get-unknown-languages-page-body []
   (html
