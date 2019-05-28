@@ -64,7 +64,7 @@
 
 ;TODO handle-request
 ;TODO handle-request will return EITHER the expected value of the request or a key indicating something that went wrong -- like :not-found
-(defn handle-thanks-request
+(defn handle-thanks-request!
   [slack-text thankses]
   (case slack-text
     ("" nil "help") {:response_type "ephemeral"
@@ -73,7 +73,7 @@
          :text (get-languages-page-body)}
     (let [slack-params (str/split slack-text #" ")
           language (keyword (first slack-params))]
-      (let [the-thanks (ty/get-thanks language thankses)]
+      (let [the-thanks (ty/get-thanks! language thankses)]
         (if (= :language-not-found the-thanks)
           {:response_type "ephemeral"
            :text (handle-language-not-found language)}
@@ -101,9 +101,9 @@
 (defroutes app
            (GET "/" [] splash)
            (GET "/say-thanks" {params :params}
-                (construct-thanks-response (handle-thanks-request (params slack-text-key) ty/thankses)))
+                (construct-thanks-response (handle-thanks-request! (params slack-text-key) ty/thankses)))
            (POST "/say-thanks" {params :params}
-                (construct-thanks-response (handle-thanks-request (params slack-text-key) ty/thankses)))
+                (construct-thanks-response (handle-thanks-request! (params slack-text-key) ty/thankses)))
            (GET "/show-unknown-languages" {}
                 (show-unknown-languages-page))
            (ANY "*" []

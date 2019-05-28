@@ -28,12 +28,14 @@
   [x-or-xs]
   (rand-nth (if (coll? x-or-xs) x-or-xs [x-or-xs])))
 
-(defn get-thanks
+(defn get-thanks!
   "Gets the appropriate thanks based on the language"
   [language thankses]
   (if-let [thanks (get-one-thanks (language thankses))]
     thanks
-    :language-not-found))
+    (do
+      (log-unknown-language! language)
+      :language-not-found)))
 
 (defn get-languages
   "Returns the languages that Thankser knows"
