@@ -33,7 +33,7 @@
   [language thankses]
   (if-let [thanks (get-one-thanks (language thankses))]
     thanks
-    :not-found))
+    :language-not-found))
 
 (defn get-languages
   "Returns the languages that Thankser knows"
