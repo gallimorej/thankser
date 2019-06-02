@@ -28,6 +28,7 @@
   [x-or-xs]
   (rand-nth (if (coll? x-or-xs) x-or-xs [x-or-xs])))
 
+; TODO move the log-unknown-languages out of this function to make it pure
 (defn get-thanks!
   "Gets the appropriate thanks based on the language"
   [language thankses]

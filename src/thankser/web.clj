@@ -61,8 +61,6 @@
   (str "Thankser knows how to say thank you in the following languages:\n"
        (strip (pr-str (map name (ty/get-languages))) "()\"")))
 
-
-;TODO handle-request
 ;TODO handle-request will return EITHER the expected value of the request or a key indicating something that went wrong -- like :not-found
 (defn handle-thanks-request!
   [slack-text thankses]
@@ -96,7 +94,6 @@
 (defn show-unknown-languages-page []
   (ok html-header (get-unknown-languages-page-body)))
 
-; TODO call handle-request then call construct-response based on return value from handle-request
 ; TODO put side effect of updating mongo IF the language isn't found
 (defroutes app
            (GET "/" [] splash)
