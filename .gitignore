@@ -12,3 +12,17 @@ pom.xml.asc
 /.idea
 /.mongo_env
 thankser.iml
+
+# OS-specific files
+.DS_Store
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Environment variables
+.env
